@@ -15,6 +15,6 @@ function showDiv(sectionId,divId)
 }
 function hideDiv(divId)
 {
+    setTimeout(function() {document.getElementById(divId).style.display='none'; },300)
     
-    document.getElementById(divId).style.display='none';
 }

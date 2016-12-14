@@ -17,7 +17,7 @@ section{
     background: #444;
     height: inherit;
     max-width: 420px;
-    transition: max-width .5s;
+    transition: max-width .5s .3s;
     
     
 }
