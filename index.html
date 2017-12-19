@@ -1,24 +1,52 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Jeren Velletri</title>
-        <link rel="stylesheet" href="css/index.css">
-    </head>
-    
-    <header><h1>Jeren Velletri</h1>
-        <section id='about' onclick="showDiv(this,'aboutbody')"onmouseleave="hideDiv('aboutbody')">
-            <h2>About</h2>
-            <div class='sectionbody' id='aboutbody'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis nisl et dolor scelerisque malesuada. In hac habitasse platea dictumst. Mauris vel volutpat magna. Duis malesuada malesuada urna, at venenatis risus. Suspendisse ut bibendum quam. Maecenas euismod urna eu purus rhoncus, eget malesuada massa lobortis. Donec a tincidunt libero. Nulla pellentesque purus vitae ullamcorper posuere. Etiam ex erat, ullamcorper at massa quis, semper vehicula mauris. Nullam condimentum libero a diam venenatis, sed pellentesque felis gravida. Phasellus nibh diam, lacinia eu diam eu, porttitor commodo nisi. Ut ut consequat tellus. Nunc hendrerit augue sed eleifend dignissim.</div>
-        </section>
-        <section id='work'onclick="showDiv(this,'workbody')" onmouseleave="hideDiv('workbody')"><h2>Work</h2>
-            <div class='sectionbody' id='workbody'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis nisl et dolor scelerisque malesuada. In hac habitasse platea dictumst. Mauris vel volutpat magna. Duis malesuada malesuada urna, at venenatis risus. Suspendisse ut bibendum quam. Maecenas euismod urna eu purus rhoncus, eget malesuada massa lobortis. Donec a tincidunt libero. Nulla pellentesque purus vitae ullamcorper posuere. Etiam ex erat, ullamcorper at massa quis, semper vehicula mauris. Nullam condimentum libero a diam venenatis, sed pellentesque felis gravida. Phasellus nibh diam, lacinia eu diam eu, porttitor commodo nisi. Ut ut consequat tellus. Nunc hendrerit augue sed eleifend dignissim.</div>
-        </section>
-        <section id='contact'onclick="showDiv(this,'contactbody')" onmouseleave="hideDiv('contactbody')"><h2>Contact</h2>
-             <div class='sectionbody' id='contactbody'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis nisl et dolor scelerisque malesuada. In hac habitasse platea dictumst. Mauris vel volutpat magna. Duis malesuada malesuada urna, at venenatis risus. Suspendisse ut bibendum quam. Maecenas euismod urna eu purus rhoncus, eget malesuada massa lobortis. Donec a tincidunt libero. Nulla pellentesque purus vitae ullamcorper posuere. Etiam ex erat, ullamcorper at massa quis, semper vehicula mauris. Nullam condimentum libero a diam venenatis, sed pellentesque felis gravida. Phasellus nibh diam, lacinia eu diam eu, porttitor commodo nisi. Ut ut consequat tellus. Nunc hendrerit augue sed eleifend dignissim.</div>
-        </section>
-   </header> 
-    <script src="js/index.js"></script>
+<head>
+<meta charset="utf-8">
+<title>Hello OpenCV.js</title>
+</head>
+<body>
+<h2>Hello OpenCV.js</h2>
+<p id="status">OpenCV.js is loading...</p>
+<div>
+  <div class="inputoutput">
+    <img id="imageSrc" alt="No Image" />
+    <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput" ></canvas>
+    <div class="caption">canvasOutput</div>
+  </div>
+</div>
+<script type="text/javascript">
+    let imgElement = document.getElementById('imageSrc');
+    let inputElement = document.getElementById('fileInput');
+    inputElement.addEventListener('change', (e) => {
+        imgElement.src = URL.createObjectURL(e.target.files[0]);
+        }, false);
+        imgElement.onload = function() {
+            let mat = cv.imread(imgElement);
+        cv.imshow('canvasOutput', mat);
+        mat.delete();
+        
+    let canvas = document.getElementById('canvasOutput');
+    let ctx = canvas.getContext('2d');
+    let imgdata = ctx.getImageData(0,0,canvas.width,canvas.height);
+    let src = cv.imread('imageSrc');
+    let dst = new cv.Mat();
+// To distinguish the input and output, we graying the image.
+// You can try different conversions.
+    cv.cvtColor(src, dst, cv.COLOR_BGR2RGB);
+    cv.imshow('canvasOutput', dst);
+    src.delete();
+    dst.delete();
+                                
+};
 
+
+function onOpenCvReady() {
+  document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+}
+</script>
+<script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+</body>
 </html>
