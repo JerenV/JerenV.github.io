@@ -55,13 +55,13 @@ for (let i = 0; i < circles.cols; ++i) {
      
 }
     
-let rect = new cv.Rect(circles.data32F[0]-circles.data32F[2]*.9 , circles.data32F[1]-circles.data32F[2]*.9 ,circles.data32F[2]*1.8, circles.data32F[2]*1.8);
+let rect = new cv.Rect(circles.data32F[0]-circles.data32F[2]*.9 , circles.data32F[1]-circles.data32F[2]*.9 ,circles.data32F[2]*1.9, circles.data32F[2]*1.9);
 dst = dst.roi(rect);
          let innercircles = new cv.Mat();
             cv.HoughCircles(dst, innercircles, cv.HOUGH_GRADIENT,
-                1, 45, 75, 40, 0, 0);
+                1, 10, 75, 25, 0, 40);
             
-            for (let i = 0; i < circles.cols; ++i) {
+            for (let i = 0; i < innercircles.cols; ++i) {
     let x = innercircles.data32F[i * 3];
     let y = innercircles.data32F[i * 3 + 1];
     let radius = innercircles.data32F[i * 3 + 2];
