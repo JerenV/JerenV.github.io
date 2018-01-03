@@ -36,8 +36,23 @@
     let dst = new cv.Mat();
 // To distinguish the input and output, we graying the image.
 // You can try different conversions.
-    cv.cvtColor(src, dst, cv.COLOR_BGR2RGB);
-    cv.Canny(src, dst, 50, 100, 3, false);
+    //cv.cvtColor(src, dst, cv.COLOR_BGR2RGB);
+   // cv.Canny(src, dst, 50, 100, 3, false);
+            let circles = new cv.Mat();
+let color = new cv.Scalar(255, 0, 0);
+cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
+// You can try more different parameters
+cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT,
+                1, 45, 75, 40, 0, 0);
+// draw circles
+for (let i = 0; i < circles.cols; ++i) {
+    let x = circles.data32F[i * 3];
+    let y = circles.data32F[i * 3 + 1];
+    let radius = circles.data32F[i * 3 + 2];
+    let center = new cv.Point(x, y);
+    cv.circle(dst, center, radius, color);
+}
+cv.imshow('canvasOutput', dst);
             
     cv.imshow('canvasOutput', dst);
     src.delete();
