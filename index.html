@@ -16,6 +16,7 @@
     <canvas id="canvasOutput" ></canvas>
     <div class="caption">canvasOutput</div>
   </div>
+    <p id="dim">bolt diameter: </p>
 </div>
 <script type="text/javascript">
     let imgElement = document.getElementById('imageSrc');
@@ -65,10 +66,20 @@ dst = dst.roi(rect);
     let x = innercircles.data32F[i * 3];
     let y = innercircles.data32F[i * 3 + 1];
     let radius = innercircles.data32F[i * 3 + 2];
+                
     let center = new cv.Point(x, y);
     cv.circle(dst, center, radius, color);
      
 }
+      
+      dd1 = Math.sqrt((innercircles.data32F[0]-innercircles.data32F[3])*(innercircles.data32F[0]-innercircles.data32F[3])+(innercircles.data32F[1]-innercircles.data32F[4])*(innercircles.data32F[1]-innercircles.data32F[4]));
+          dd2 = Math.sqrt((innercircles.data32F[0]-innercircles.data32F[6])*(innercircles.data32F[0]-innercircles.data32F[6])+(innercircles.data32F[1]-innercircles.data32F[7])*(innercircles.data32F[1]-innercircles.data32F[7]));
+             dd3 = Math.sqrt((innercircles.data32F[3]-innercircles.data32F[6])*(innercircles.data32F[3]-innercircles.data32F[6])+(innercircles.data32F[4]-innercircles.data32F[7])*(innercircles.data32F[4]-innercircles.data32F[7]));
+            avg = (dd1+dd2+dd3)/3
+            ppm = avg/26;
+            boltD = 2*circles.data32F[2]/ppm;
+              document.getElementById('dim').innerHTML += boltD + 'mm';
+
 cv.imshow('canvasOutput', dst);
             
     cv.imshow('canvasOutput', dst);
