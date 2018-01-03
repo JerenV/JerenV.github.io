@@ -27,6 +27,7 @@
             let mat = cv.imread(imgElement);
         cv.imshow('canvasOutput', mat);
         mat.delete();
+            
         
     let canvas = document.getElementById('canvasOutput');
     let ctx = canvas.getContext('2d');
@@ -36,6 +37,8 @@
 // To distinguish the input and output, we graying the image.
 // You can try different conversions.
     cv.cvtColor(src, dst, cv.COLOR_BGR2RGB);
+    cv.Canny(src, dst, 50, 100, 3, false);
+            
     cv.imshow('canvasOutput', dst);
     src.delete();
     dst.delete();
