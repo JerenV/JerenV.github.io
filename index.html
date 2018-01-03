@@ -2,19 +2,19 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>bolts</title>
+<title>Hello OpenCV.js</title>
 </head>
 <body>
-<h2>Bolts boii</h2>
+<h2>Hello OpenCV.js</h2>
 <p id="status">OpenCV.js is loading...</p>
 <div>
   <div class="inputoutput">
     <img id="imageSrc" alt="No Image" />
-    <div class="caption">input image <input type="file" id="fileInput" name="file" /></div>
+    <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
   </div>
   <div class="inputoutput">
     <canvas id="canvasOutput" ></canvas>
-    <div class="caption">output image</div>
+    <div class="caption">canvasOutput</div>
   </div>
     <p id="dim">bolt diameter: </p>
 </div>
@@ -35,16 +35,13 @@
     let imgdata = ctx.getImageData(0,0,canvas.width,canvas.height);
     let src = cv.imread('imageSrc');
     let dst = new cv.Mat();
-            let dsize = new cv.Size(193,180);
-// You can try more different parameters
-cv.resize(src, dst, dsize, 0, 0, cv.INTER_AREA);
 // To distinguish the input and output, we graying the image.
 // You can try different conversions.
     //cv.cvtColor(src, dst, cv.COLOR_BGR2RGB);
    // cv.Canny(src, dst, 50, 100, 3, false);
             let circles = new cv.Mat();
 let color = new cv.Scalar(255, 0, 0);
-cv.cvtColor(dst, dst, cv.COLOR_RGBA2GRAY, 0);
+cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
 // You can try more different parameters
 cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT,
                 1, 45, 75, 40, 0, 0);
@@ -81,7 +78,7 @@ dst = dst.roi(rect);
             avg = (dd1+dd2+dd3)/3
             ppm = avg/26;
             boltD = 2*circles.data32F[2]/ppm;
-              document.getElementById('dim').innerHTML ='boltdiameter: ' + boltD.toFixed(2) + 'mm';
+              document.getElementById('dim').innerHTML += boltD + 'mm';
 
 cv.imshow('canvasOutput', dst);
             
