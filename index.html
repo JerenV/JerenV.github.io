@@ -45,12 +45,29 @@ cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
 cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT,
                 1, 45, 75, 40, 0, 0);
 // draw circles
+           
 for (let i = 0; i < circles.cols; ++i) {
     let x = circles.data32F[i * 3];
     let y = circles.data32F[i * 3 + 1];
     let radius = circles.data32F[i * 3 + 2];
     let center = new cv.Point(x, y);
     cv.circle(dst, center, radius, color);
+     
+}
+    
+let rect = new cv.Rect(circles.data32F[0]-circles.data32F[2]*.9 , circles.data32F[1]-circles.data32F[2]*.9 ,circles.data32F[2]*1.8, circles.data32F[2]*1.8);
+dst = dst.roi(rect);
+         let innercircles = new cv.Mat();
+            cv.HoughCircles(dst, innercircles, cv.HOUGH_GRADIENT,
+                1, 45, 75, 40, 0, 0);
+            
+            for (let i = 0; i < circles.cols; ++i) {
+    let x = innercircles.data32F[i * 3];
+    let y = innercircles.data32F[i * 3 + 1];
+    let radius = innercircles.data32F[i * 3 + 2];
+    let center = new cv.Point(x, y);
+    cv.circle(dst, center, radius, color);
+     
 }
 cv.imshow('canvasOutput', dst);
             
