@@ -78,7 +78,7 @@ dst = dst.roi(rect);
             avg = (dd1+dd2+dd3)/3
             ppm = avg/26;
             boltD = 2*circles.data32F[2]/ppm;
-              document.getElementById('dim').innerHTML += boltD + 'mm';
+              document.getElementById('dim').innerHTML ='Bolt Diameter: ' + boltD.toFixed(1) + 'mm';
 
 cv.imshow('canvasOutput', dst);
             
