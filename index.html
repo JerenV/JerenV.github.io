@@ -5,16 +5,16 @@
 <title>Bolt demo</title>
 </head>
 <body>
-<h2>bolt id demo</h2>
+<h2>Bolt id demo</h2>
 <p id="status">OpenCV.js is loading...</p>
 <div>
   <div class="inputoutput">
     <img id="imageSrc" alt="No Image" />
-    <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+    <div class="caption">Image <input type="file" id="fileInput" name="file" /></div>
   </div>
   <div class="inputoutput">
     <canvas id="canvasOutput" ></canvas>
-    <div class="caption">canvasOutput</div>
+    <div class="caption">Output</div>
   </div>
     <p id="dim">bolt diameter: </p>
 </div>
@@ -40,11 +40,11 @@
     //cv.cvtColor(src, dst, cv.COLOR_BGR2RGB);
    // cv.Canny(src, dst, 50, 100, 3, false);
             let circles = new cv.Mat();
-let color = new cv.Scalar(255, 0, 0);
+let color = new cv.Scalar(100, 100, 100);
 cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
 // You can try more different parameters
 cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT,
-                1, 45, 75, 40, 0, 0);
+                1, 100, 75, 40, 120, 0);
 // draw circles
            
 for (let i = 0; i < circles.cols; ++i) {
@@ -76,7 +76,7 @@ dst = dst.roi(rect);
           dd2 = Math.sqrt((innercircles.data32F[0]-innercircles.data32F[6])*(innercircles.data32F[0]-innercircles.data32F[6])+(innercircles.data32F[1]-innercircles.data32F[7])*(innercircles.data32F[1]-innercircles.data32F[7]));
              dd3 = Math.sqrt((innercircles.data32F[3]-innercircles.data32F[6])*(innercircles.data32F[3]-innercircles.data32F[6])+(innercircles.data32F[4]-innercircles.data32F[7])*(innercircles.data32F[4]-innercircles.data32F[7]));
             avg = (dd1+dd2+dd3)/3
-            ppm = avg/26;
+            ppm = avg/25.98;
             boltD = 2*circles.data32F[2]/ppm;
               document.getElementById('dim').innerHTML ='Bolt Diameter: ' + boltD.toFixed(1) + 'mm';
 
