@@ -45,7 +45,7 @@ cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
 cv.cvtColor(dst, src, cv.COLOR_GRAY2BGR);
 // You can try more different parameters
 cv.HoughCircles(dst, circles, cv.HOUGH_GRADIENT,
-                1, 100, 75, 40, 120, 0);
+                2, 5000, 75, 100, 120, 0);
 // draw circles
            
 for (let i = 0; i < circles.cols; ++i) {
@@ -62,7 +62,7 @@ dst = dst.roi(rect);
 src = src.roi(rect);
          let innercircles = new cv.Mat();
             cv.HoughCircles(dst, innercircles, cv.HOUGH_GRADIENT,
-                1, 10, 75, 25, 0, 40);
+                1, 150, 75, 25, 20, 30);
             
             for (let i = 0; i < innercircles.cols; ++i) {
     let x = innercircles.data32F[i * 3];
