@@ -41,6 +41,7 @@
    // cv.Canny(src, dst, 50, 100, 3, false);
             let circles = new cv.Mat();
 let color = new cv.Scalar(255, 0, 0);
+let textcolor = new cv.Scalar(10, 10, 10);
 cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
 cv.cvtColor(dst, src, cv.COLOR_GRAY2BGR);
 // You can try more different parameters
@@ -53,13 +54,19 @@ for (let i = 0; i < circles.cols; ++i) {
     let y = circles.data32F[i * 3 + 1];
     let radius = circles.data32F[i * 3 + 2];
     let center = new cv.Point(x, y);
+    let cross1 = new cv.Point(x-10, y);
+    let cross2 = new cv.Point(x+10, y);
+    let cross3 = new cv.Point(x, y-10);
+    let cross4 = new cv.Point(x, y+10);
+    cv.line(src,cross1,cross2,color );
+    cv.line(src,cross3,cross4,color); 
     cv.circle(src, center, radius, color);
      
 }
     
 let rect = new cv.Rect(circles.data32F[0]-circles.data32F[2]*.9 , circles.data32F[1]-circles.data32F[2]*.9 ,circles.data32F[2]*1.9, circles.data32F[2]*1.9);
-dst = dst.roi(rect);
-src = src.roi(rect);
+//dst = dst.roi(rect);
+//src = src.roi(rect);
          let innercircles = new cv.Mat();
             cv.HoughCircles(dst, innercircles, cv.HOUGH_GRADIENT,
                 1, 150, 75, 25, 20, 30);
@@ -70,15 +77,45 @@ src = src.roi(rect);
     let radius = innercircles.data32F[i * 3 + 2];
                 
     let center = new cv.Point(x, y);
+    let cross1 = new cv.Point(x-10, y);
+    let cross2 = new cv.Point(x+10, y);
+    let cross3 = new cv.Point(x, y-10);
+    let cross4 = new cv.Point(x, y+10);
+    cv.line(src,cross1,cross2,color );
+    cv.line(src,cross3,cross4,color); 
     cv.circle(src, center, radius, color);
-     
+
 }
       
       dd1 = Math.sqrt((innercircles.data32F[0]-innercircles.data32F[3])*(innercircles.data32F[0]-innercircles.data32F[3])+(innercircles.data32F[1]-innercircles.data32F[4])*(innercircles.data32F[1]-innercircles.data32F[4]));
+        
+            p11 = new cv.Point(innercircles.data32F[0], innercircles.data32F[1]);
+           p12 = new cv.Point(innercircles.data32F[3], innercircles.data32F[4]);
+            p13 = new cv.Point((innercircles.data32F[0]+innercircles.data32F[3])/2,(innercircles.data32F[1]+innercircles.data32F[4])/2)
+        cv.line(src,p11,p12,textcolor);
+            
+
           dd2 = Math.sqrt((innercircles.data32F[0]-innercircles.data32F[6])*(innercircles.data32F[0]-innercircles.data32F[6])+(innercircles.data32F[1]-innercircles.data32F[7])*(innercircles.data32F[1]-innercircles.data32F[7]));
+            
+             p21 = new cv.Point(innercircles.data32F[0], innercircles.data32F[1]);
+           p22 = new cv.Point(innercircles.data32F[6], innercircles.data32F[7]);
+            p23 = new cv.Point((innercircles.data32F[0]+innercircles.data32F[6])/2,(innercircles.data32F[1]+innercircles.data32F[7])/2)
+        cv.line(src,p21,p22,textcolor);
+
              dd3 = Math.sqrt((innercircles.data32F[3]-innercircles.data32F[6])*(innercircles.data32F[3]-innercircles.data32F[6])+(innercircles.data32F[4]-innercircles.data32F[7])*(innercircles.data32F[4]-innercircles.data32F[7]));
+            
+            p31 = new cv.Point(innercircles.data32F[3], innercircles.data32F[4]);
+           p32 = new cv.Point(innercircles.data32F[6], innercircles.data32F[7]);
+             p33 = new cv.Point((innercircles.data32F[3]+innercircles.data32F[6])/2,(innercircles.data32F[4]+innercircles.data32F[7])/2)
+        cv.line(src,p31,p32,textcolor);
+            
             avg = (dd1+dd2+dd3)/3
             ppm = avg/25.98;
+            cv.putText(src,Math.round((dd1/ppm)*100)/100+'mm',p13,1,1, textcolor, 1)
+            cv.putText(src,Math.round((dd2/ppm)*100)/100+'mm',p23,1,1, textcolor, 1)
+            cv.putText(src,Math.round((dd3/ppm)*100)/100+'mm',p33,1,1, textcolor, 1)
+
+
             boltD = 2*circles.data32F[2]/ppm;
               document.getElementById('dim').innerHTML ='Bolt Diameter: ' + boltD.toFixed(1) + 'mm';
 
